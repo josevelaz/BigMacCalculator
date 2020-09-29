@@ -1,0 +1,8 @@
+{
+  "name": "BigMacCalculator",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "git@github.com:josevelaz/BigMacCalculator.git",
+  "author": "Jose Velazquez",
+  "license": "MIT"
+}
