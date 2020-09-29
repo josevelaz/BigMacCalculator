@@ -1,5 +1,5 @@
 {
-  "name": "BigMacCalculator",
+  "name": "BigMacCalculatorServer",
   "version": "1.0.0",
   "main": "server.ts",
   "repository": "git@github.com:josevelaz/BigMacCalculator.git",
@@ -9,7 +9,12 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "start:dev": "nodemon"
+    "start": "if-env NODE_ENV=production && yarn run start:prod || yarn run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn run client\"",
+    "client": "cd client && yarn run start",
+    "install": "cd client && yarn install",
+    "build": "cd client && yarn run build"
   },
   "devDependencies": {
     "@types/express": "^4.17.8",
