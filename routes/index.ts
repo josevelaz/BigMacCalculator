@@ -1,13 +1,13 @@
 import express from "express"
 import path from "path"
-// import api from "./api"
+import api from "./api"
 
 const router = express.Router()
 
 /**
  * API routes
  */
-// router.use("/api", api)
+router.use("/api", api)
 
 /**
  * If no API routes are hit, send the React Client
