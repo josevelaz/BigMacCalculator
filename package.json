@@ -6,9 +6,13 @@
   "author": "Jose Velazquez",
   "license": "MIT",
   "dependencies": {
+    "@fast-csv/format": "^4.3.1",
+    "@fast-csv/parse": "^4.3.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "fast-csv": "^4.3.2",
     "ngrok": "^3.3.0",
+    "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "request-ip": "^2.1.3"
   },
