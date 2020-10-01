@@ -1,22 +1,43 @@
 import { Request, Response } from "express"
 import fetch from "node-fetch"
+export interface IPData {
+  ip: string
+  type: string
+  continent_code: string
+  continent_name: string
+  country_code: string
+  country_name: string
+  location: {
+    country_flag: string
+    country_flag_emoji: string
+    country_flag_emoji_unicode: string
+  }
+}
 
 export const ipController = {
   fetchIP: async (req: Request, res: Response) => {
-    const IP = true
-      ? "https://ipvigilante.com/json/2603:9001:205:3d00:6cf3:60a6:e94f:5dd9"
-      : `https://ipvigilante.com/json/${req.clientIp}`
-
-    console.log(IP)
-
     if (!req.clientIp) {
       return res.status(500)
     }
-
     try {
-      let data = await fetch(IP)
+      let data = await fetch(
+        `http://api.ipstack.com/${req.clientIp}?access_key=${process.env.IPSTACK_KEY}`
+      )
       let json = await data.json()
-      return res.json(json)
+      let parse: IPData = {
+        ip: json.ip,
+        type: json.type,
+        continent_code: json.continent_code,
+        continent_name: json.continent_name,
+        country_code: json.country_code,
+        country_name: json.country_name,
+        location: {
+          country_flag: json.country_flag,
+          country_flag_emoji: json.country_flag_emoji,
+          country_flag_emoji_unicode: json.country_flag_emoji_unicode
+        }
+      }
+      return res.json(parse)
     } catch (error) {
       console.log("==ERROR==")
       console.log(error)
