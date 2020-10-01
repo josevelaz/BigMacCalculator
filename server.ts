@@ -3,10 +3,12 @@ import path from "path"
 import routes from "./routes"
 import cors from "cors"
 import requestIp from "request-ip"
+import dotenv from "dotenv"
 import { cache as BigMacCache } from "./controllers"
 
 const app = express()
 const PORT = 8000
+dotenv.config()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
