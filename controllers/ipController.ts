@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import fetch from "node-fetch"
-export interface IPData {
+export type IPData = {
   ip: string
   type: string
   continent_code: string

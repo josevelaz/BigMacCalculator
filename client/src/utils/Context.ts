@@ -1,9 +1,10 @@
 import { Context, createContext } from "react"
 
-export const BigMacContext: Context<{
-  bigMacs: number
-  changeBigMacs: React.Dispatch<React.SetStateAction<number>>
+export const LocalCurrencyContext: Context<{
+  ammount: number
+  cashValue?: number
+  changeAmmount: React.Dispatch<React.SetStateAction<number>>
 }> = createContext({
-  bigMacs: 1,
-  changeBigMacs: (q) => {}
+  ammount: 1,
+  changeAmmount: (a) => {}
 })
