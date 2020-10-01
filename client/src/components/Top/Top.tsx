@@ -1,11 +1,11 @@
 import styled from "@emotion/styled"
 import React, { useContext } from "react"
-import { LocalCurrencyContext } from "../../utils/Context"
+import { BigMacContext } from "../../utils/Context"
 import { Section } from "../styled"
 import { TopProps } from "./Top.props"
 
 const MacInput = styled.input`
-  width: 70px;
+  width: 30px;
   height: 30px;
   border-radius: 30px;
   background-color: #e4e4e4;
@@ -14,9 +14,9 @@ const MacInput = styled.input`
 `
 
 export const Top = (props: TopProps) => {
-  const { ammount, changeAmmount } = useContext(LocalCurrencyContext)
-  const onChangeQty = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    changeAmmount(parseFloat(target.value))
+  const { bigMacs, changeBigMacs } = useContext(BigMacContext)
+  const onChangeQty = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeBigMacs(parseInt(e.target.value))
   }
   return (
     <Section>
@@ -25,14 +25,12 @@ export const Top = (props: TopProps) => {
       <div>
         <p>Please enter an amount of money in your local currency</p>
         <MacInput
-          name="local_currency_input"
+          name="Big-Mac-Input"
           type="number"
-          step="0.01"
           maxLength={3}
-          min="0.01"
-          value={ammount}
+          min={1}
+          value={bigMacs}
           onChange={onChangeQty}
-          onBlur={({ target }) => target.value === "" && changeAmmount(0.01)}
         />
       </div>
     </Section>

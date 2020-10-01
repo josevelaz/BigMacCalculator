@@ -1,13 +1,13 @@
 import React, { useContext } from "react"
-import { LocalCurrencyContext } from "../../utils/Context"
+import { BigMacContext } from "../../utils/Context"
 import { Section } from "../styled"
 import { MiddleProps } from "./Middle.props"
 
 export const Middle = (props: MiddleProps) => {
-  const { ammount } = useContext(LocalCurrencyContext)
+  const { bigMacs } = useContext(BigMacContext)
   return (
     <Section>
-      <p>You Could Buy {ammount} of Big Macs in you country</p>
+      <p>You Could Buy {bigMacs} of Big Macs in you country</p>
     </Section>
   )
 }

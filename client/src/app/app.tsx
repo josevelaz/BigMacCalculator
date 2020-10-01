@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { Screen, Top, Middle, Bottom } from "../components"
-import { LocalCurrencyContext } from "../utils/Context"
-
-const URL = "http://78a5a525930a.ngrok.io"
+import { Screen, Section, Top } from "../components"
+import { Middle } from "../components/Middle/Middle"
+import { BigMacContext } from "../utils/Context"
 
 export interface FetchIPResponse {
   ip: string
@@ -18,70 +17,31 @@ export interface FetchIPResponse {
   }
 }
 
-function getRandomInt(max: number, min: number): number {
-  return Math.floor(Math.random() * (max - min) + min)
-}
-
-interface FetchCountryDataResponse {
-  data: CountryData[]
-}
-export type CountryData = {
-  Country: string
-  Date: string
-  "Local-price": string
-  "Dollar-ex": string
-  "Dollar-price": string
-  "Dollar-PPP": string
-  "Dollar-valuation": string
-}
-
 export const App = () => {
   const [userInfo, setUserInfo] = useState<FetchIPResponse | null>(null)
-  const [ammount, changeAmmount] = useState<number>(1)
-  const [randCountry, setRandCountry] = useState<CountryData | null>(null)
-  const [userCountry, setUserCountry] = useState<CountryData | null>(null)
+  const [bigMacs, changeBigMacs] = useState<number>(1)
 
   const fetchIP = async () => {
     try {
-      let data = await fetch(`${URL}/api/ip/fetch-ip`)
+      let data = await fetch(`http://78a5a525930a.ngrok.io/api/ip/fetch-ip`)
       let json: FetchIPResponse = await data.json()
       setUserInfo(json)
     } catch (error) {
-      console.log("=====ERROR-FetchIP=====")
-      console.log(error)
-    }
-  }
-  const fetchLocalCountry = ({ data }: FetchCountryDataResponse) => {
-    // console.log(data)
-    console.log(userInfo)
-
-    let localCountry = data.find((v) => v.Country === userInfo?.country_name)
-    return localCountry
-  }
-
-  const fetchCountryData = async () => {
-    try {
-      let data = await fetch(`${URL}/api/data/fetch-countries-ppp`)
-      let json: FetchCountryDataResponse = await data.json()
-      console.log(fetchLocalCountry(json))
-      setRandCountry(json.data[getRandomInt(json.data.length, 1)])
-    } catch (error) {
-      console.log("=====ERROR-FetchCountryData=====")
+      console.log("=====ERROR=====")
       console.log(error)
     }
   }
   useEffect(() => {
     fetchIP()
-    fetchCountryData()
   }, [])
 
   return (
     <Screen>
-      <LocalCurrencyContext.Provider value={{ ammount, changeAmmount }}>
+      <BigMacContext.Provider value={{ bigMacs, changeBigMacs }}>
         <Top country={userInfo?.country_name} />
         <Middle />
-        <Bottom randomCountry={randCountry} />
-      </LocalCurrencyContext.Provider>
+        <Section>Bap</Section>
+      </BigMacContext.Provider>
     </Screen>
   )
 }
