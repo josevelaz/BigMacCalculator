@@ -1,4 +1,4 @@
-Country,Date,Local price,Dollar ex,Dollar price,Dollar PPP,Dollar valuation
+Country,Date,LocalPrice,DollarEx,DollarPrice,DollarPPP,DollarValuation
 Argentina,2000-04-01,2.5,1.0,2.5,0.9960159362549802,-0.3984063745019806
 Argentina,2001-04-01,2.5,1.0,2.5,0.984251968503937,-1.5748031496062964
 Argentina,2002-04-01,2.5,3.13,0.78,1.004016064257028,-67.92280944865725
