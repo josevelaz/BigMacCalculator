@@ -5,6 +5,7 @@ import cors from "cors"
 import requestIp from "request-ip"
 import dotenv from "dotenv"
 import { cache as BigMacCache } from "./controllers"
+import { parser } from "./supplemental/parser"
 
 const app = express()
 const PORT = 8000
@@ -20,6 +21,7 @@ app.set("trust proxy", true)
 app.use(routes)
 BigMacCache.flushAll()
 console.log("🔧 [SYSTEM] Flushed all dached data")
+parser.countries()
 
 app.listen(PORT, () => {
   console.log(`🔧 [SERVER] Server running on http://localhost:${PORT}`)

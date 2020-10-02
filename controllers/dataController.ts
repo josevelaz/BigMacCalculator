@@ -1,52 +1,47 @@
 import { Request, Response } from "express"
-import fs from "fs"
-import path from "path"
-import * as csv from "fast-csv"
 import nodeCache from "node-cache"
+import fetch from "node-fetch"
+import emojiFlags from "emoji-flags"
 
 export const cache = new nodeCache()
-type CountryDataType = {
+export type CountryDataType = {
   Country: string
   Date: string
-  "Local-price": string
-  "Dollar-ex": string
-  "Dollar-price": string
-  "Dollar-PPP": string
-  "Dollar-valuation": string
+  LocalPrice: string
+  DollarEx: string
+  DollarPrice: string
+  DollarPPP: string
+  DollarValuation: string
+}
+
+function getRandomInt(max: number, min: number): number {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 export const dataController = {
-  fetchCountriesPPP: (req: Request, res: Response) => {
+  fetchCountries: async (req: Request, res: Response) => {
     let cacheVal: CountryDataType[] | null | undefined = cache.get("big-mac-index")
     if (!cacheVal) {
-      let rows: CountryDataType[] = []
-      fs.createReadStream(path.resolve(__dirname, "../supplemental", "big-mac-index.csv"))
-        .pipe(csv.parse({ headers: true }))
-        .on("error", (error) => console.error(error))
-        .on("data", (row) => (rows = [...rows, row]))
-        .on("end", () => {
-          const filter: CountryDataType[] = rows.reverse().filter((item, i) => {
-            const prevRow = rows[i - 1]
-            if (prevRow?.Country !== item.Country) {
-              return true
-            }
-          })
-
-          let success = cache.set("big-mac-index", filter)
-          if (success) {
-            console.log("🔧 [SYSTEM] Succesfully Cached the Big Mac Index")
-            return res.json({ data: filter })
-          }
-        })
+      return res.status(500)
     } else {
-      return res.json({ data: cacheVal })
+      const randomCountryInt = getRandomInt(cacheVal.length, 1)
+      let ipData = await fetch(`http://0f35abc17c5d.ngrok.io/api/ip/fetch-ip/${req.clientIp}`)
+      let json = await ipData.json()
+      let local = cacheVal?.find((v) => v.Country === json.country_name)
+      let localEmoji: emojiFlags.CountryData | undefined = emojiFlags.data.find(
+        (e) => e.name === local?.Country
+      )
+      let randomEmoji: emojiFlags.CountryData | undefined = emojiFlags.data.find(
+        (e) => cacheVal && e.name === cacheVal[randomCountryInt]?.Country
+      )
+      return res.json({
+        randomCountry: {
+          ...cacheVal[randomCountryInt],
+          emoji: randomEmoji?.emoji,
+          unicode: randomEmoji?.unicode
+        },
+        local: { ...local, emoji: localEmoji?.emoji, unicode: localEmoji?.unicode }
+      })
     }
-  },
-  fetchLocalCountry: (req: Request, res: Response) => {
-    const { localCountry } = req.params
-    let cacheVal: CountryDataType[] | null | undefined = cache.get("big-mac-index")
-
-    let local = cacheVal?.find((v) => v.Country === localCountry)
-    return res.json({ data: local })
   }
 }
