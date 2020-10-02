@@ -25,7 +25,7 @@ export const dataController = {
       return res.status(500)
     } else {
       const randomCountryInt = getRandomInt(cacheVal.length, 1)
-      let ipData = await fetch(`http://0f35abc17c5d.ngrok.io/api/ip/fetch-ip/${req.clientIp}`)
+      let ipData = await fetch(`/api/ip/fetch-ip/${req.clientIp}`)
       let json = await ipData.json()
       let local = cacheVal?.find((v) => v.Country === json.country_name)
       let localEmoji: emojiFlags.CountryData | undefined = emojiFlags.data.find(

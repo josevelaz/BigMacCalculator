@@ -8,7 +8,7 @@ import { cache as BigMacCache } from "./controllers"
 import { parser } from "./supplemental/parser"
 
 const app = express()
-const PORT = 8000
+const PORT = process.env.PORT || 8000
 dotenv.config()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())

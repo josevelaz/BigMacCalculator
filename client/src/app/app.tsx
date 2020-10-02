@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 import { Screen, Top, Middle, Bottom, Background } from "../components"
 import emojiFlags from "emoji-flags"
 
-const URL = "http://0f35abc17c5d.ngrok.io"
-
 interface FetchCountryDataResponse {
   randomCountry: CountryData
   local: CountryData
@@ -31,7 +29,7 @@ export const App = () => {
    */
   const fetchInitialData = async () => {
     try {
-      let data = await fetch(`${URL}/api/data/fetch-countries`)
+      let data = await fetch(`/api/data/fetch-countries`)
       let { randomCountry, local }: FetchCountryDataResponse = await data.json()
       setRandCountry(randomCountry)
       setUserCountry(local)
