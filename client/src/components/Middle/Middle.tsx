@@ -1,13 +1,18 @@
-import React, { useContext } from "react"
-import { BigMacContext } from "../../utils/Context"
-import { Section } from "../styled"
+import React from "react"
+import { Section, Text } from "../styled"
 import { MiddleProps } from "./Middle.props"
+import { helperFunctions } from "../../utils/Helpers"
 
-export const Middle = (props: MiddleProps) => {
-  const { bigMacs } = useContext(BigMacContext)
+export const Middle = ({ ammount, price, ppp }: MiddleProps) => {
   return (
     <Section>
-      <p>You Could Buy {bigMacs} of Big Macs in you country</p>
+      <Text>
+        You Could Buy <strong>{helperFunctions.calculateAmmount(price, ammount).toFixed(2)}</strong>{" "}
+        Big Mac(s) in you country
+      </Text>
+      <Text>
+        Your Dollar Purchasing Parity (PPP) is <span id="highlight">{ppp}</span>
+      </Text>
     </Section>
   )
 }

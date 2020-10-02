@@ -1,36 +1,29 @@
 import styled from "@emotion/styled"
-import React, { useContext } from "react"
-import { BigMacContext } from "../../utils/Context"
-import { Section } from "../styled"
+import React from "react"
+import Emoji from "react-emoji-render"
+import { Section, Input, Text } from "../styled"
 import { TopProps } from "./Top.props"
 
-const MacInput = styled.input`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  background-color: #e4e4e4;
-  border: 0;
-  padding: 0 15px;
-`
-
-export const Top = (props: TopProps) => {
-  const { bigMacs, changeBigMacs } = useContext(BigMacContext)
-  const onChangeQty = (e: React.ChangeEvent<HTMLInputElement>) => {
-    changeBigMacs(parseInt(e.target.value))
+export const Top = ({ ammount, changeAmmount, country }: TopProps) => {
+  const onChangeQty = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    changeAmmount(parseFloat(target.value))
   }
   return (
     <Section>
+      <div style={{ fontSize: 64, marginTop: 15 }}>
+        <Emoji text="🍔" />
+      </div>
       <h1>Big mac Price Converter</h1>
-      <h1>You are in {props.country}</h1>
+      <h2>
+        You are in {country?.Country} {country?.emoji}
+      </h2>
       <div>
-        <p>Please enter an amount of money in your local currency</p>
-        <MacInput
-          name="Big-Mac-Input"
-          type="number"
-          maxLength={3}
-          min={1}
-          value={bigMacs}
+        <Text>Please enter an amount of money in your local currency</Text>
+        <Input
+          center
+          value={ammount}
           onChange={onChangeQty}
+          onBlur={({ target }) => target.value === "" && changeAmmount(0.01)}
         />
       </div>
     </Section>

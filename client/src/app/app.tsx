@@ -1,47 +1,65 @@
 import React, { useEffect, useState } from "react"
-import { Screen, Section, Top } from "../components"
-import { Middle } from "../components/Middle/Middle"
-import { BigMacContext } from "../utils/Context"
+import { Screen, Top, Middle, Bottom, Background } from "../components"
+import emojiFlags from "emoji-flags"
 
-export interface FetchIPResponse {
-  ip: string
-  type: string
-  continent_code: string
-  continent_name: string
-  country_code: string
-  country_name: string
-  location: {
-    country_flag: string
-    country_flag_emoji: string
-    country_flag_emoji_unicode: string
-  }
+const URL = "http://0f35abc17c5d.ngrok.io"
+
+interface FetchCountryDataResponse {
+  randomCountry: CountryData
+  local: CountryData
+}
+export type CountryData = {
+  Country: string
+  Date: string
+  LocalPrice: string
+  DollarEx: string
+  DollarPrice: string
+  DollarPPP: string
+  DollarValuation: string
+  emoji: string
+  unicode: string
 }
 
 export const App = () => {
-  const [userInfo, setUserInfo] = useState<FetchIPResponse | null>(null)
-  const [bigMacs, changeBigMacs] = useState<number>(1)
+  const [ammount, changeAmmount] = useState<number>(1)
+  const [randCountry, setRandCountry] = useState<CountryData | null>(null)
+  const [userCountry, setUserCountry] = useState<CountryData | null>(null)
 
-  const fetchIP = async () => {
+  /**
+   * Function that runs upon page load. Fetches the list of contries with all its information
+   * If successfull, fetch will return a random country and the lcoal country
+   */
+  const fetchInitialData = async () => {
     try {
-      let data = await fetch(`http://78a5a525930a.ngrok.io/api/ip/fetch-ip`)
-      let json: FetchIPResponse = await data.json()
-      setUserInfo(json)
+      let data = await fetch(`${URL}/api/data/fetch-countries`)
+      let { randomCountry, local }: FetchCountryDataResponse = await data.json()
+      setRandCountry(randomCountry)
+      setUserCountry(local)
     } catch (error) {
-      console.log("=====ERROR=====")
+      console.log("=====ERROR-FetchCountryData=====")
       console.log(error)
     }
   }
   useEffect(() => {
-    fetchIP()
+    fetchInitialData()
+    console.log(emojiFlags.data)
   }, [])
 
   return (
     <Screen>
-      <BigMacContext.Provider value={{ bigMacs, changeBigMacs }}>
-        <Top country={userInfo?.country_name} />
-        <Middle />
-        <Section>Bap</Section>
-      </BigMacContext.Provider>
+      <Top country={userCountry} changeAmmount={changeAmmount} ammount={ammount} />
+      <Middle
+        price={userCountry ? parseFloat(userCountry?.DollarPrice) : 0}
+        ammount={ammount}
+        ppp={userCountry?.DollarPPP}
+      />
+      <Bottom
+        randomCountry={randCountry}
+        changeAmmount={changeAmmount}
+        ammount={ammount}
+        country={userCountry}
+      />
+      <Background />
     </Screen>
   )
 }
