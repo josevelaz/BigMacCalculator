@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import fetch from "node-fetch"
+import { baseServerURL } from "../server"
 export type IPData = {
   ip: string
   type: string
@@ -24,7 +25,9 @@ export const ipController = {
     }
     try {
       let data = await fetch(
-        `http://api.ipstack.com/${req.clientIp}?access_key=${process.env.IPSTACK_KEY}`
+        baseServerURL(
+          `http://api.ipstack.com/${req.clientIp}?access_key=${process.env.IPSTACK_KEY}`
+        )
       )
       let json = await data.json()
       let parse: IPData = {

@@ -9,6 +9,7 @@ import { parser } from "./supplemental/parser"
 
 const app = express()
 const PORT = process.env.PORT || 8000
+export const baseServerURL = (route?: string) => new URL(`http://localhost:${PORT}/${route}`)
 dotenv.config()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -30,5 +31,5 @@ console.log("🔧 [SYSTEM] Flushed all dached data")
 parser.countries()
 
 app.listen(PORT, () => {
-  console.log(`🔧 [SERVER] Server running on http://localhost:${PORT}`)
+  console.log(`🔧 [SERVER] Server running on ${baseServerURL}`)
 })
