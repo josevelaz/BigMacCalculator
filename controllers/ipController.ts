@@ -25,9 +25,7 @@ export const ipController = {
     }
     try {
       let data = await fetch(
-        baseServerURL(
-          `http://api.ipstack.com/${req.clientIp}?access_key=${process.env.IPSTACK_KEY}`
-        )
+        `http://api.ipstack.com/${req.clientIp}?access_key=${process.env.IPSTACK_KEY}`
       )
       let json = await data.json()
       let parse: IPData = {
