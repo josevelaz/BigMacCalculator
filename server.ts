@@ -16,9 +16,15 @@ app.use(cors())
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"))
 }
+/**
+ * Middleware for getting the client's ip
+ */
 app.use(requestIp.mw())
 app.set("trust proxy", true)
 app.use(routes)
+/**
+ * Removing all old cache when server boots up
+ */
 BigMacCache.flushAll()
 console.log("🔧 [SYSTEM] Flushed all dached data")
 parser.countries()

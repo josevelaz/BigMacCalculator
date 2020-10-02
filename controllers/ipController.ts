@@ -15,6 +15,9 @@ export type IPData = {
 }
 
 export const ipController = {
+  /**
+   * Obtains user geolocation data based on IP address supplued
+   */
   fetchIP: async (req: Request, res: Response) => {
     if (!req.clientIp) {
       return res.status(500)

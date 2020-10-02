@@ -19,6 +19,10 @@ function getRandomInt(max: number, min: number): number {
 }
 
 export const dataController = {
+  /**
+   * Fetches cached country data, parsed it and adds necesarry flag emojis.
+   * Returns a random country and the user's current country
+   */
   fetchCountries: async (req: Request, res: Response) => {
     let cacheVal: CountryDataType[] | null | undefined = cache.get("big-mac-index")
     if (!cacheVal) {
