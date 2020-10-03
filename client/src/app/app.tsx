@@ -29,6 +29,10 @@ export const App = () => {
    */
   const fetchInitialData = async () => {
     try {
+      let ip = await fetch(`https://ipvigilante.com/json`)
+      let jsonIP = await ip.json()
+      console.log(jsonIP)
+
       let data = await fetch(`/api/data/fetch-countries`)
       let { randomCountry, local }: FetchCountryDataResponse = await data.json()
       setRandCountry(randomCountry)
@@ -40,7 +44,6 @@ export const App = () => {
   }
   useEffect(() => {
     fetchInitialData()
-    console.log(emojiFlags.data)
   }, [])
 
   return (
