@@ -31,7 +31,7 @@ export const App = () => {
     try {
       let ip = await fetch(`https://ipvigilante.com/json`, {
         headers: {
-          "Access-Control-Allow-Origin": "https://ipvigilante.com/"
+          "Access-Control-Allow-Origin": "*"
         }
       })
       let jsonIP = await ip.json()
