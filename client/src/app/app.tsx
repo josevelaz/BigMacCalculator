@@ -29,7 +29,11 @@ export const App = () => {
    */
   const fetchInitialData = async () => {
     try {
-      let ip = await fetch(`https://ipvigilante.com/json`)
+      let ip = await fetch(`https://ipvigilante.com/json`, {
+        headers: {
+          "Access-Control-Allow-Origin": "https://ipvigilante.com/"
+        }
+      })
       let jsonIP = await ip.json()
       console.log(jsonIP)
 
